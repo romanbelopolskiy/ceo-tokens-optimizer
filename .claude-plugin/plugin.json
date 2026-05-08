@@ -1,0 +1,9 @@
+{
+  "name": "ceo-tokens-optimizer",
+  "description": "Claude Code plugin for concise CEO-dashboard work, token budgeting, and scoped analytical deliverables",
+  "version": "0.1.0",
+  "author": {
+    "name": "Roman Belopolskiy"
+  },
+  "homepage": "https://github.com/romanbelopolskiy/ceo-tokens-optimizer"
+}

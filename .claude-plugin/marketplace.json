@@ -1,0 +1,21 @@
+{
+  "name": "ceo-tokens-marketplace",
+  "owner": {
+    "name": "Roman Belopolskiy"
+  },
+  "metadata": {
+    "description": "Claude Code plugins for token-efficient CEO-dashboard analysis workflows"
+  },
+  "plugins": [
+    {
+      "name": "ceo-tokens-optimizer",
+      "source": "./",
+      "description": "Claude Code plugin for concise CEO-dashboard work, token budgeting, and scoped analytical deliverables",
+      "version": "0.1.0",
+      "author": {
+        "name": "Roman Belopolskiy"
+      },
+      "homepage": "https://github.com/romanbelopolskiy/ceo-tokens-optimizer"
+    }
+  ]
+}

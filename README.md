@@ -4,6 +4,12 @@ Claude Code plugin for token-efficient work on CEO-dashboard, analytics, and pre
 
 The plugin is intentionally small and original. It does not bundle third-party proprietary code.
 
+## Privacy and Access
+
+This plugin works without accounts, login flows, payments, subscriptions, license checks, or remote entitlement checks.
+
+It does not send usage data to external services. The current implementation has no network calls, analytics SDKs, telemetry endpoints, or hosted backend dependency.
+
 ## Install
 
 Inside Claude Code:

@@ -1,3 +1,6 @@
 {
-  "agent": "ceo-tokens-optimizer:advisor"
+  "agent": "ceo-tokens-optimizer:advisor",
+  "statusLine": {
+    "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/hud-with-ctx.sh\""
+  }
 }

@@ -1,7 +1,7 @@
 {
   "name": "ceo-tokens-optimizer",
   "description": "Claude Code plugin for token-efficient CEO-dashboard work: compact search tools, batching guidance, local usage stats, and a rate-limit HUD",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": {
     "name": "Roman Belopolskiy"
   }

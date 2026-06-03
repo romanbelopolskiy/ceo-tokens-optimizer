@@ -28,7 +28,7 @@ Restart Claude Code after installation.
 - **`token-budget` skill** for reducing repeated reads, oversized outputs, and redundant summaries.
 - **Batching guidance** injected at session start: prefer one combined `Search` call and one batched `Edit` call over many small round-trips.
 - **Local usage stats:** a `PostToolUse` hook records tool calls and the compact-tool share. See them with `/savings`.
-- **Rate-limit HUD:** the default status line shows 5h / weekly / session limit use and context fill.
+- **Rate-limit HUD:** the default status line shows 5h / weekly / session limit use, context fill, and a compact savings segment `sv:N% ~Nk` (compact-tool share + est tool-output tokens for the session).
 
 ## Tools
 
@@ -39,9 +39,9 @@ Restart Claude Code after installation.
 
 ## Status line and savings
 
-The default status line is the rate-limit HUD (`scripts/hud-with-ctx.sh`): 5h / weekly / session limit use and context fill.
+The default status line is the rate-limit HUD (`scripts/hud-with-ctx.sh`): 5h / weekly / session limit use, context fill, and a compact savings segment `sv:N% ~Nk` (compact-tool share + est tool-output tokens for the session, read from the local stats file).
 
-Token-usage savings are tracked separately and surfaced with **`/savings`** — a local report of tool calls, the compact-tool share (`Search`/`ReadSlice` vs `Read`/`Grep`/`Glob`), and estimated tool-output tokens, for the session and lifetime.
+A fuller breakdown is available with **`/savings`** — a local report of tool calls, the compact-tool share (`Search`/`ReadSlice` vs `Read`/`Grep`/`Glob`), and estimated tool-output tokens, for the session and lifetime.
 
 Prefer the savings line in your status bar instead of the HUD? Point `statusLine` in `~/.claude/settings.json` at the bundled script:
 

@@ -3,7 +3,9 @@ set -euo pipefail
 
 # Claude Code statusLine command.
 # Reads the statusLine JSON payload from stdin and prints a compact HUD:
-#   5h:N%(reset) wk:N%(reset) sn:N%(reset) · ctx:N%
+#   5h:N%(reset) wk:N%(reset) sn:N%(reset) · ctx:N% · sv:N% ~Nk
+# sv = compact-tool share (Search/ReadSlice vs Read/Grep/Glob) + est tool-output
+# tokens for this session, read from ~/.ceo-tokens-optimizer/stats.json (local only).
 # It also writes ~/.claude/state/hud/<cwd_basename>.json for bridge/auto-compact consumers.
 
 payload_file=$(mktemp "${TMPDIR:-/tmp}/claude-hud-payload.XXXXXX")
@@ -185,5 +187,34 @@ def part(label, value, reset=None):
         return f"{label}:?"
     return f"{label}:{value}%{dur_until(reset)}"
 
-print(f"{part('5h', five, five_reset)} {part('wk', week, week_reset)} {part('sn', sonnet, sonnet_reset)} · ctx:{ctx if ctx is not None else '?'}%")
+
+def load_savings(session_id):
+    # Compact-tool economy for this session, written locally by the plugin's
+    # PostToolUse hook (scripts/savings-track.js). No network. None if absent.
+    if not session_id:
+        return None
+    try:
+        sp = Path.home() / ".ceo-tokens-optimizer" / "stats.json"
+        sess = (json.loads(sp.read_text()).get("sessions") or {}).get(session_id)
+    except Exception:
+        return None
+    if not isinstance(sess, dict):
+        return None
+    compact = int(sess.get("compact") or 0)
+    heavy = int(sess.get("heavy") or 0)
+    den = compact + heavy
+    share = int(round(100.0 * compact / den)) if den else None
+    ktok = int(round(float(sess.get("outChars") or 0) / 4000.0))
+    return {"share": share, "ktok": ktok}
+
+
+sv = load_savings(payload.get("session_id"))
+if sv is None:
+    sv_seg = ""
+elif sv["share"] is None:
+    sv_seg = f" · sv:– ~{sv['ktok']}k"
+else:
+    sv_seg = f" · sv:{sv['share']}% ~{sv['ktok']}k"
+
+print(f"{part('5h', five, five_reset)} {part('wk', week, week_reset)} {part('sn', sonnet, sonnet_reset)} · ctx:{ctx if ctx is not None else '?'}%{sv_seg}")
 PY

@@ -65,3 +65,5 @@ Or ask Claude to use the `token-budget` skill before a large research, dashboard
 claude plugin marketplace update ceo-tokens-marketplace
 claude plugin update ceo-tokens-optimizer@ceo-tokens-marketplace
 ```
+
+Version history: [CHANGELOG.md](CHANGELOG.md).

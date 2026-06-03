@@ -2,13 +2,13 @@
 
 Claude Code plugin for token-efficient work on CEO-dashboard, analytics, and presentation tasks.
 
-The plugin is intentionally small and original. It does not bundle third-party proprietary code.
+The plugin is intentionally small and original. It does not bundle third-party proprietary code and has no npm dependencies.
 
 ## Privacy and Access
 
 This plugin works without accounts, login flows, payments, subscriptions, license checks, or remote entitlement checks.
 
-It does not send usage data to external services. The current implementation has no network calls, analytics SDKs, telemetry endpoints, or hosted backend dependency.
+It makes no network calls and has no analytics SDKs, telemetry endpoints, or hosted backend. Usage stats (for `/savings` and the status line) are written only to a local file at `~/.ceo-tokens-optimizer/stats.json` and never leave your machine.
 
 ## Install
 
@@ -23,9 +23,31 @@ Restart Claude Code after installation.
 
 ## What It Adds
 
-- `ceo-tokens-optimizer:advisor` agent for scoped analytical and coding work.
-- `token-budget` skill for reducing repeated reads, oversized outputs, and redundant summaries.
-- Session context that reminds Claude to keep CEO-dashboard deliverables concise and file-based.
+- **Compact search tools (MCP):** `Search` returns capped `path:line:snippet` matches instead of dumping whole files, and `ReadSlice` reads only a line range. Fewer tokens per lookup.
+- **`ceo-tokens-optimizer:advisor` agent** for scoped analytical and coding work. `Grep`/`Glob` are disabled for this agent so it leans on `Search`.
+- **`token-budget` skill** for reducing repeated reads, oversized outputs, and redundant summaries.
+- **Batching guidance** injected at session start: prefer one combined `Search` call and one batched `Edit` call over many small round-trips.
+- **Local usage stats:** a `PostToolUse` hook records tool calls and the compact-tool share. See them with `/savings`.
+- **Rate-limit HUD:** the default status line shows 5h / weekly / session limit use and context fill.
+
+## Tools
+
+| Tool | What it does |
+|------|--------------|
+| `Search` | File discovery + grep in one call; capped match lines, not whole files. Uses ripgrep if present, else grep. |
+| `ReadSlice` | Reads only a numbered line range of a file. |
+
+## Status line and savings
+
+The default status line is the rate-limit HUD (`scripts/hud-with-ctx.sh`): 5h / weekly / session limit use and context fill.
+
+Token-usage savings are tracked separately and surfaced with **`/savings`** — a local report of tool calls, the compact-tool share (`Search`/`ReadSlice` vs `Read`/`Grep`/`Glob`), and estimated tool-output tokens, for the session and lifetime.
+
+Prefer the savings line in your status bar instead of the HUD? Point `statusLine` in `~/.claude/settings.json` at the bundled script:
+
+```json
+"statusLine": { "type": "command", "command": "node /path/to/ceo-tokens-optimizer/scripts/status-line.js" }
+```
 
 ## Usage
 

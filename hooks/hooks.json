@@ -5,7 +5,18 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if command -v node >/dev/null 2>&1; then node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-start.js\"; else printf '%s\\n' '{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":\"Use concise, scoped CEO-dashboard workflows. Prefer narrow file reads and targeted queries over broad dumps.\"}}'; fi"
+            "command": "if command -v node >/dev/null 2>&1; then node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-start.js\"; else printf '%s\\n' '{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":\"CEO Tokens Optimizer active. Keep work scoped: prefer the Search/ReadSlice tools over grep/glob or whole-file reads, batch related calls, and write long deliverables to files.\"}}'; fi"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if command -v node >/dev/null 2>&1; then node \"${CLAUDE_PLUGIN_ROOT}/scripts/savings-track.js\"; fi"
           }
         ]
       }
